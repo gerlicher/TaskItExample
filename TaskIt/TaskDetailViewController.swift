@@ -11,6 +11,13 @@ import UIKit
 class TaskDetailViewController: UIViewController {
 
     var detailTaskModel: TaskModel!
+   
+    
+    @IBOutlet weak var taskTextField: UITextField!
+    
+    @IBOutlet weak var subtaskTextField: UITextField!
+    
+    @IBOutlet weak var taskDatePicker: UIDatePicker!
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -18,6 +25,10 @@ class TaskDetailViewController: UIViewController {
         // Do any additional setup after loading the view.
         
         println(self.detailTaskModel)
+        self.taskTextField.text = self.detailTaskModel.task
+        self.subtaskTextField.text = self.detailTaskModel.subtask
+        self.taskDatePicker.date = self.detailTaskModel.date
+        
     }
 
     override func didReceiveMemoryWarning() {
@@ -26,5 +37,24 @@ class TaskDetailViewController: UIViewController {
     }
     
 
+    @IBAction func cancelButtonTabbed(sender: UIBarButtonItem) {
+        
+        self.navigationController?.popViewControllerAnimated(true)
+        
+    }
 
+    @IBAction func doneButtonTabbed(sender: UIBarButtonItem) {
+        
+        let appDelegate = (UIApplication.sharedApplication()).delegate as AppDelegate
+        
+        detailTaskModel.task = taskTextField.text
+        detailTaskModel.subtask = subtaskTextField.text
+        detailTaskModel.date = taskDatePicker.date
+        detailTaskModel.completed = detailTaskModel.completed
+        
+        appDelegate.saveContext()
+        
+        self.navigationController?.popViewControllerAnimated(true)
+        
+    }
 }
